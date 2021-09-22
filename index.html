@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- TITLE -->
+    <title>Mapping Baao in OSM</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="src/css/bootstrap.css">
+    <link rel="stylesheet" href="src/css/leaflet.css">
+    <link rel="stylesheet" href="src/css/jquery-ui.css">
+    <link rel="stylesheet" href="src/css/easy-button.css">
+    <!-- JS -->
+    <script src="src/bootstrap.js"></script>
+    <script src="src/leaflet-src.js"></script>
+    <script src="src/jquery-3.6.0.js"></script>
+    <script src="src/jquery-ui.min.js"></script>
+    <script src="src/plugins/leaflet.ajax.js"></script>
+    <script src="src/plugins/leaflet-providers.js"></script>
+    <script src="src/plugins/easy-button.js"></script>
+    <!-- FUNCTIONS -->
+    <script src="src/functions.js"></script>
+    
+</head>
+<body>
+    <!-- LEFT TITLE -->
+    <div id="title">
+        <div class="col-md-3">
+            <h1>Mapping</br>Baao in</br>OpenStreetMap</h1>
+            <h5>I'm one of the many OSM volunteers mapping the world. In my case, <u>I'm mostly tracing buildings, land use, and roads in Baao, my hometown</u>. I made my first contribution in November 2020 starting at our street and now mapping towards the poblacion/town center.</h5>
+            <h3>Download OSM data</h3>
+            <h4>
+                <ol>
+                    <a href="https://api.openstreetmap.org/api/0.6/map?bbox=123.30,13.42,123.42,13.54">Via OSM API</a>
+                    <button id="btnModal" class="glyphicon glyphicon-info-sign">Test</button>
+                </ol>
+                <ol>Via QuickOSM Plugin in QGIS</ol>
+            </h4></br>
+            <h5><b>Contribute by mapping your house</b>, your neighbor's house, the next house, and your whole neighborhood!</h5>
+        </div>
+    </div>
+    <!-- MODAL -->
+    <div id="mdlBox" class="modal">
+        <div class="modal-content">
+            <span id="mdlClose" class="close">&times;</span>
+            <p>Replace with html page</p>
+        </div>
+    </div>
+    <!-- LEAFLET MAP -->
+    <div id="mapdiv" class="col-md-7"></div>
+    <!-- RIGHT TITLE -->
+    <div id="subtitle">
+        <div class="col-md-2">
+            <h4>If you're in Baao and want to contribute, <button id="btnLocate">locate</button> yourself to see how 🗺️ is your area</h4>
+        </div>
+    </div>
+    <script>
+        // VARIABLES
+        var mymap;
+        var mrkCurrentLocation;
+        var lyrOSM;
+        var lyrImagery;
+        var lyrCarto; 
+        var lyrBaaoBdry;
+        var lyrBldgs;
+        var lyrLanduse;
+        var lyrNatural;
+        var objBasemaps;
+        var objOverlays;
+        var ctlLayers;
+
+        $(document).ready(function(){
+            // LEAFLET
+            mymap = L.map('mapdiv', {center:[13.476671979448765, 123.3453379189896],
+                                     zoom:25, zoomSnap:0.25, zoomDelta: 0.25});
+            mymap.fitBounds([
+                [13.423, 123.305],  // Minimum
+                [13.544,123.422]    // Maximum
+            ]);
+
+            // BASEMAPS
+            lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik', 
+                                          {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | @ <a href="https://www.linkedin.com/in/miguel-imperial-8abaa31a0/">Miguel Imperial</a>',
+                                           maxZoom: 19}).addTo(mymap);
+            lyrImagery = L.tileLayer.provider('Esri.WorldImagery',
+                                              {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community | @ <a href="https://www.linkedin.com/in/miguel-imperial-8abaa31a0/">Miguel Imperial</a>'});
+            lyrCarto = L.tileLayer.provider('CartoDB.Positron', 
+                                            {attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors | @ <a href="https://www.linkedin.com/in/miguel-imperial-8abaa31a0/">Miguel Imperial</a>',
+                                            subdomains: 'abcd',
+	                                        maxZoom: 19});
+            // VECTOR LAYERS
+            lyrBaaoBdry = new L.GeoJSON.AJAX('data/baao_bdry.geojson', {style:stlBdry, onEachFeature:popBaao}).addTo(mymap);
+            lyrBldgs = new L.GeoJSON.AJAX('data/baao_bldgs.geojson', {style:stlBldgs, onEachFeature:popOSM}).addTo(mymap)
+            lyrLanduse = new L.GeoJSON.AJAX('data/baao_landuse.geojson', {style:stlNaturalLUse, onEachFeature:popOSM});
+            lyrNatural = new L.GeoJSON.AJAX('data/baao_natural.geojson', {style:stlNaturalLUse, onEachFeature:popOSM});
+            
+            // BACK TO MAP BUTTON
+            btnResetLoc = L.easyButton('glyphicon glyphicon-screenshot', resetLocation).addTo(mymap);
+            
+            // MODAL EVENT HANDLERS
+            $("#btnModal").click(function() {
+                ($("#mdlBox")).show();
+            });
+            $("#mdlClose").click(function() {
+                ($("#mdlBox")).hide();
+            }); 
+
+            // LOCATE BUTTON
+            mymap.on('locationfound', function(e) {
+                console.log(e);
+                if (mrkCurrentLocation) {
+                    mrkCurrentLocation.remove();
+                }
+                mrkCurrentLocation = L.circle(e.latlng, {radius:e.accuracy/0.5}).addTo(mymap);
+                mymap.setView(e.latlng, 16);
+            });
+                
+            mymap.on('locationerror', function(e) {
+                console.log(e);
+                alert("Location was not found. Nauuda ika!");
+            })
+
+            $("#btnLocate").click(function(){
+                mymap.locate();
+            });
+
+            // LAYER CONTROL
+            objBasemaps = {
+                "OpenStreetMap": lyrOSM,
+                "ESRI Imagery": lyrImagery,
+                "Carto Positron": lyrCarto            
+            };
+            objOverlays = {
+                "Buildings as of 18 Sept. 2021": lyrBldgs,
+                "Natural area": lyrNatural,
+                "Land use": lyrLanduse,
+                "Municipal boundary": lyrBaaoBdry
+            };
+            ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
+        });
+    </script>
+</body>
+</html>
