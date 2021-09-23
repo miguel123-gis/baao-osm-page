@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="src/css/leaflet.css">
     <link rel="stylesheet" href="src/css/jquery-ui.css">
     <link rel="stylesheet" href="src/css/easy-button.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
     <!-- JS -->
     <script src="src/bootstrap.js"></script>
     <script src="src/leaflet-src.js"></script>
@@ -34,7 +35,7 @@
             <h4>
                 <ol>
                     <a href="https://api.openstreetmap.org/api/0.6/map?bbox=123.30,13.42,123.42,13.54">Via OSM API</a>
-                    <button id="btnModal" class="glyphicon glyphicon-info-sign">Test</button>
+                    <button id="btnModal" class="glyphicon glyphicon-info-sign"></button>
                 </ol>
                 <ol>Via QuickOSM Plugin in QGIS</ol>
             </h4></br>
@@ -76,9 +77,9 @@
             mymap = L.map('mapdiv', {center:[13.476671979448765, 123.3453379189896],
                                      zoom:25, zoomSnap:0.25, zoomDelta: 0.25});
             mymap.fitBounds([
-                [13.423, 123.305],  // Minimum
-                [13.544,123.422]    // Maximum
-            ]);
+                                    [13.423, 123.305],  // Minimum
+                                    [13.544,123.422]    // Maximum
+                                ]);
 
             // BASEMAPS
             lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik', 
@@ -91,10 +92,10 @@
                                             subdomains: 'abcd',
 	                                        maxZoom: 19});
             // VECTOR LAYERS
-            lyrBaaoBdry = new L.GeoJSON.AJAX('data/baao_bdry.geojson', {style:stlBdry, onEachFeature:popBaao}).addTo(mymap);
-            lyrBldgs = new L.GeoJSON.AJAX('data/baao_bldgs.geojson', {style:stlBldgs, onEachFeature:popOSM}).addTo(mymap)
-            lyrLanduse = new L.GeoJSON.AJAX('data/baao_landuse.geojson', {style:stlNaturalLUse, onEachFeature:popOSM});
-            lyrNatural = new L.GeoJSON.AJAX('data/baao_natural.geojson', {style:stlNaturalLUse, onEachFeature:popOSM});
+            lyrBaaoBdry = new L.GeoJSON.AJAX('data/baao_bdry.geojson', {style:stlBdry, onEachFeature:popOSM}).addTo(mymap);
+            lyrBldgs = new L.GeoJSON.AJAX('data/baao_bldgs.geojson', {style:stlBldgs, onEachFeature:popOSM}).addTo(mymap);
+            lyrLanduse = new L.GeoJSON.AJAX('data/baao_landuse.geojson', {style:stlLanduse, onEachFeature:popOSM});
+            lyrNatural = new L.GeoJSON.AJAX('data/baao_natural.geojson', {onEachFeature:popOSM});
             
             // BACK TO MAP BUTTON
             btnResetLoc = L.easyButton('glyphicon glyphicon-screenshot', resetLocation).addTo(mymap);

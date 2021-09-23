@@ -6,12 +6,11 @@
     height: 100vh; 
 }
 
-/* #btnModal {
-  size: 2cm;
+#btnModal {
   font-size: 10px;
-  color:brown;
-  background-color: antiquewhite;
-} */
+  align-items: center;
+  vertical-align: 1mm;
+}
 
 /* The Modal (background) */
 .modal {

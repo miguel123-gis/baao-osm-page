@@ -15,7 +15,7 @@ function stlBldgs(json) {
         weight: 1
     };
 } 
-function stlNaturalLUse(json) {
+function stlLanduse(json) {
     return {
         fillOpacity: 0,
         color: '#800080',
@@ -23,31 +23,23 @@ function stlNaturalLUse(json) {
     };
 }
 // POPUP FOR LAYERS
-function popBaao(feature, json){
-    json.bindPopup("Land area: "+feature.properties.area_sqkm+"km²")
-};
-
-// function popOSM(json) {
-//     switch(json){
-//         case "lyrBldgs":
-//             json.bindPopup("lyrBldgs");
-//             break;
-//         default:
-//             json.bindPopup("dog");
-//     }
-
-// };
-
-function popOSM(json){
-    if(json=lyrBldgs){
-        json.bindPopup("Bldgs")
-    } else if(json=lyrLanduse) {
-        json.bindPopup("Landuse")
+function popOSM(feature, layer){
+    var att = feature.properties;
+    var layerStyle = layer.options.style;
+    var popupTxt;
+    if (layerStyle == stlBldgs) {
+        popupTxt = 'osm_way_id: '+att.osm_way_id+', '+'building: '+att.building
+    } else if (layerStyle == stlLanduse) {
+        popupTxt = 'osm_way_id: '+att.osm_way_id+', '+'landuse: '+att.landuse
+    } else if (layerStyle == stlBdry) {
+        popupTxt = "Land area: "+feature.properties.area_sqkm+"km²"
     } else {
-        json.bindPopup("Natural")
-    };
+        null
+    }
+    layer.bindPopup(popupTxt)
 };
 
 function resetLocation(btn) {
-    alert("dog")
+    // mymap.setView(mymap.getBounds());
+    alert("Going back to main map extent")
 }
