@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- TITLE -->
-    <title>Mapping Baao in OSM</title>
+    <title>Baao in OSM</title>
     <!-- CSS -->
     <link rel="stylesheet" href="src/css/main.css">
     <link rel="stylesheet" href="src/css/bootstrap.css">
@@ -29,7 +29,8 @@
     <!-- LEFT TITLE -->
     <div id="title">
         <div class="col-md-3">
-            <h1>Mapping</br>Baao in</br>OpenStreetMap</h1>
+            <h1>Baao in</br>OpenStreetMap</h1>
+            <h4>Baao is a small town of 61,493 in the province of Camarines Sur in Bicol region. </h4>
             <h5>I'm one of the many OSM volunteers mapping the world. In my case, <u>I'm mostly tracing buildings, land use, and roads in Baao, my hometown</u>. I made my first contribution in November 2020 starting at our street and now mapping towards the poblacion/town center.</h5>
             <h3>Download OSM data</h3>
             <h4>
@@ -37,30 +38,41 @@
                     <a href="https://api.openstreetmap.org/api/0.6/map?bbox=123.30,13.42,123.42,13.54">Via OSM API</a>
                     <button id="btnModal" class="glyphicon glyphicon-info-sign"></button>
                 </ol>
-                <ol>Via QuickOSM Plugin in QGIS</ol>
+                <ol><a href="https://www.giscourse.com/how-to-download-osm-data-using-quickosm-plugin-in-qgis" target="_blank">
+                    Via QuickOSM Plugin in QGIS
+                </a></ol>
             </h4></br>
-            <h5><b>Contribute by mapping your house</b>, your neighbor's house, the next house, and your whole neighborhood!</h5>
+            <h4>All the data displayed are as of 18 September 2021</h4>
         </div>
     </div>
     <!-- MODAL -->
     <div id="mdlBox" class="modal">
         <div class="modal-content">
             <span id="mdlClose" class="close">&times;</span>
-            <p>Replace with html page</p>
+            <p>A .osm file will be downloaded. It contains all the data in OSM within the extents of the boundary displayed.</br>
+               Open it in QGIS and extract needed data. To get the buildings only, filter/extract the multipolygons layer with <code>buildings IS NOT NULL</code>.</p>
         </div>
     </div>
     <!-- LEAFLET MAP -->
-    <div id="mapdiv" class="col-md-7"></div>
+    <div id="mapdiv" class="col-md-7">
+    </div>
     <!-- RIGHT TITLE -->
     <div id="subtitle">
         <div class="col-md-2">
             <h4>If you're in Baao and want to contribute, <button id="btnLocate">locate</button> yourself to see how 🗺️ is your area</h4>
+            <h5>
+                <b>Contribute by mapping your house</b>, your neighbor's house, the next house, and your whole neighborhood! 
+                   You may reach out to other OSM mappers in the Philippines via <a href="https://t.me/OSMph">Telegram.</a>
+            </h5>
+            
+            <h6>For any questions, you may contact me here</h6>
         </div>
     </div>
     <script>
         // VARIABLES
         var mymap;
         var mrkCurrentLocation;
+        var btnResetLoc;
         var lyrOSM;
         var lyrImagery;
         var lyrCarto; 
@@ -76,10 +88,9 @@
             // LEAFLET
             mymap = L.map('mapdiv', {center:[13.476671979448765, 123.3453379189896],
                                      zoom:25, zoomSnap:0.25, zoomDelta: 0.25});
-            mymap.fitBounds([
-                                    [13.423, 123.305],  // Minimum
-                                    [13.544,123.422]    // Maximum
-                                ]);
+            mymap.fitBounds([[13.423, 123.305],  // Minimum
+                             [13.544,123.422]    // Maximum
+                            ]);
 
             // BASEMAPS
             lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik', 
@@ -95,7 +106,7 @@
             lyrBaaoBdry = new L.GeoJSON.AJAX('data/baao_bdry.geojson', {style:stlBdry, onEachFeature:popOSM}).addTo(mymap);
             lyrBldgs = new L.GeoJSON.AJAX('data/baao_bldgs.geojson', {style:stlBldgs, onEachFeature:popOSM}).addTo(mymap);
             lyrLanduse = new L.GeoJSON.AJAX('data/baao_landuse.geojson', {style:stlLanduse, onEachFeature:popOSM});
-            lyrNatural = new L.GeoJSON.AJAX('data/baao_natural.geojson', {onEachFeature:popOSM});
+            lyrNatural = new L.GeoJSON.AJAX('data/baao_natural.geojson', {style: stlNatural, onEachFeature:popOSM});
             
             // BACK TO MAP BUTTON
             btnResetLoc = L.easyButton('glyphicon glyphicon-screenshot', resetLocation).addTo(mymap);
@@ -134,7 +145,7 @@
                 "Carto Positron": lyrCarto            
             };
             objOverlays = {
-                "Buildings as of 18 Sept. 2021": lyrBldgs,
+                "Buildings": lyrBldgs,
                 "Natural area": lyrNatural,
                 "Land use": lyrLanduse,
                 "Municipal boundary": lyrBaaoBdry

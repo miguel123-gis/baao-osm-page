@@ -22,6 +22,13 @@ function stlLanduse(json) {
         weight:0.8
     };
 }
+function stlNatural(json) {
+    return {
+        fillOpacity: 0,
+        color: '#800080',
+        weight:0.8
+    };
+}
 // POPUP FOR LAYERS
 function popOSM(feature, layer){
     var att = feature.properties;
@@ -31,6 +38,8 @@ function popOSM(feature, layer){
         popupTxt = 'osm_way_id: '+att.osm_way_id+', '+'building: '+att.building
     } else if (layerStyle == stlLanduse) {
         popupTxt = 'osm_way_id: '+att.osm_way_id+', '+'landuse: '+att.landuse
+    } else if (layerStyle == stlNatural) {
+        popupTxt = 'osm_way_id: '+att.osm_way_id+', '+'natural: '+att.landuse        
     } else if (layerStyle == stlBdry) {
         popupTxt = "Land area: "+feature.properties.area_sqkm+"km²"
     } else {
@@ -40,6 +49,7 @@ function popOSM(feature, layer){
 };
 
 function resetLocation(btn) {
-    // mymap.setView(mymap.getBounds());
-    alert("Going back to main map extent")
+    mymap.fitBounds([[13.423, 123.305],  // Minimum
+        [13.544,123.422]    // Maximum
+       ]);
 }
