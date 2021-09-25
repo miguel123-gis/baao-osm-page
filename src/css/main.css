@@ -6,6 +6,11 @@
     height: 100vh; 
 }
 
+#icon {
+  font-size: smaller;
+  color:gray;
+}
+
 #btnModal {
   font-size: 10px;
   align-items: center;
