@@ -33,19 +33,22 @@ function stlNatural(json) {
 function popOSM(feature, layer){
     var att = feature.properties;
     var layerStyle = layer.options.style;
-    var popupTxt;
+    var popupTxt
     if (layerStyle == stlBldgs) {
-        popupTxt = 'osm_way_id: '+att.osm_way_id+', '+'building: '+att.building
+        popupTxt = ("osm_way_id: " + att.osm_way_id + "</br>"+
+                    "building: " + att.building)
     } else if (layerStyle == stlLanduse) {
-        popupTxt = 'osm_way_id: '+att.osm_way_id+', '+'landuse: '+att.landuse
+        popupTxt = ("osm_way_id: " + att.osm_way_id + "</br>"+
+                    "building: " + att.landuse)
     } else if (layerStyle == stlNatural) {
-        popupTxt = 'osm_way_id: '+att.osm_way_id+', '+'natural: '+att.landuse        
+        popupTxt = ("osm_way_id: " + att.osm_way_id + "</br>"+
+                    "building: " + att.natural)    
     } else if (layerStyle == stlBdry) {
         popupTxt = "Land area: "+feature.properties.area_sqkm+"km²"
     } else {
         null
     }
-    layer.bindPopup(popupTxt)
+    layer.bindPopup(popupTxt);
 };
 
 function resetLocation(btn) {
