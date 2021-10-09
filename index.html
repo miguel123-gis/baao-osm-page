@@ -106,10 +106,10 @@
                                             subdomains: 'abcd',
 	                                        maxZoom: 19});
             // VECTOR LAYERS
-            lyrBaaoBdry = new L.GeoJSON.AJAX('data/baao_bdry.geojson', {style:stlBdry, onEachFeature:popOSM}).addTo(mymap);
-            lyrBldgs = new L.GeoJSON.AJAX('data/baao_bldgs.geojson', {style:stlBldgs, onEachFeature:popOSM}).addTo(mymap);
-            lyrLanduse = new L.GeoJSON.AJAX('data/baao_landuse.geojson', {style:stlLanduse, onEachFeature:popOSM});
-            lyrNatural = new L.GeoJSON.AJAX('data/baao_natural.geojson', {style: stlNatural, onEachFeature:popOSM});
+            lyrBaaoBdry = new L.GeoJSON.AJAX('/data/baao_bdry.geojson', {style:stlBdry, onEachFeature:popOSM}).addTo(mymap);
+            lyrBldgs = new L.GeoJSON.AJAX('/data/baao_bldgs.geojson', {style:stlBldgs, onEachFeature:popOSM}).addTo(mymap);
+            lyrLanduse = new L.GeoJSON.AJAX('/data/baao_landuse.geojson', {style:stlLanduse, onEachFeature:popOSM});
+            lyrNatural = new L.GeoJSON.AJAX('/data/baao_natural.geojson', {style: stlNatural, onEachFeature:popOSM});
             
             // BACK TO MAP BUTTON
             btnResetLoc = L.easyButton('glyphicon glyphicon-screenshot', resetLocation).addTo(mymap);
