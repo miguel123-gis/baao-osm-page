@@ -39,10 +39,10 @@ function popOSM(feature, layer){
                     "building: " + att.building)
     } else if (layerStyle == stlLanduse) {
         popupTxt = ("osm_way_id: " + att.osm_way_id + "</br>"+
-                    "building: " + att.landuse)
+                    "landuse: " + att.landuse)
     } else if (layerStyle == stlNatural) {
         popupTxt = ("osm_way_id: " + att.osm_way_id + "</br>"+
-                    "building: " + att.natural)    
+                    "natural: " + att.natural)    
     } else if (layerStyle == stlBdry) {
         popupTxt = "Land area: "+feature.properties.area_sqkm+"km²"
     } else {
