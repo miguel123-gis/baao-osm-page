@@ -1,6 +1,6 @@
 # baao-osm-page
 Webpage to view and download OSM data in Baao, Camarines Sur
-https://miguel123-gis.github.io/baao-osm-page/
+<a href="https://miguel123-gis.github.io/baao-osm-page/" target="_blank">Live page here</a>
 
 ### Municipal boundary & buildings as of 18 Sept. 2021
 ![image](imgs/pic1.png)
