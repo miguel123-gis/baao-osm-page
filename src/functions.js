@@ -18,14 +18,14 @@ function stlBldgs(json) {
 function stlLanduse(json) {
     return {
         fillOpacity: 0,
-        color: '#800080',
+        color: '#0000FF',
         weight:0.8
     };
 }
 function stlNatural(json) {
     return {
         fillOpacity: 0,
-        color: '#800080',
+        color: '#228B22',
         weight:0.8
     };
 }
@@ -56,3 +56,8 @@ function resetLocation(btn) {
         [13.544,123.422]    // Maximum
        ]);
 }
+
+function slideLayer(){
+    // mymap.removeLayer(lyrBldgs);
+    pass
+};

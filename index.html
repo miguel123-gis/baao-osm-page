@@ -22,6 +22,7 @@
     <script src="src/plugins/leaflet.ajax.js"></script>
     <script src="src/plugins/leaflet-providers.js"></script>
     <script src="src/plugins/easy-button.js"></script>
+    <script src="src/plugins/leaflet-timeline-slider.js"></script>
     <!-- FUNCTIONS -->
     <script src="src/functions.js"></script>
     
@@ -109,6 +110,7 @@
             // VECTOR LAYERS
             lyrBaaoBdry = new L.GeoJSON.AJAX('data/baao_bdry.geojson', {style:stlBdry, onEachFeature:popOSM}).addTo(mymap);
             lyrBldgs = new L.GeoJSON.AJAX('data/20210918_baao_building.geojson', {style:stlBldgs, onEachFeature:popOSM}).addTo(mymap);
+            lyrBldgsOct21 = new L.GeoJSON.AJAX('data/20211031_baao_building.geojson', {style:stlBldgs, onEachFeature:popOSM})
             lyrLanduse = new L.GeoJSON.AJAX('data/20210918_baao_landuse.geojson', {style:stlLanduse, onEachFeature:popOSM});
             lyrNatural = new L.GeoJSON.AJAX('data/20210918_baao_natural.geojson', {style: stlNatural, onEachFeature:popOSM});
             
@@ -156,6 +158,11 @@
             };
             ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
 
+            // LAYER SLIDER
+            L.control.timelineSlider({
+                timelineItems: ["October 2021", "November 2021"],
+                extraChangeMapParams: {greeting: "Hello World!"}, 
+                changeMap: slideLayer}).addTo(mymap);
             
         });
     </script>
