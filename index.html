@@ -68,8 +68,9 @@
             </h5>
             <h6>For any questions, you may check my <a href="https://miguel123-gis.github.io/website/" target="_blank">website</a> or contact me via <a href="https://www.linkedin.com/in/miguel-imperial-8abaa31a0/" target="_blank">LinkedIn.</a></h6>
             <h6>See GitHub repository <a href="https://github.com/miguel123-gis/baao-osm-page" target="_blank">here</a></h6>
-            <div id="icon">
-                <h7>Turtle icon made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></h7>
+            <div id="subinfo">
+                <h7>Turtle icon made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></h7></br></br>
+                <h7>The functionality of layer slider still incomplete, it only applies to the buildings layer. Slide back the button to bring back the layer.</h7>
             </div>
         </div>
     </div>
@@ -161,9 +162,8 @@
             // LAYER SLIDER
             L.control.timelineSlider({
                 timelineItems: ["September 2021", "October 2021"],
-                extraChangeMapParams: {greeting: "Hello World!"}, 
+                initializeChange: false,
                 changeMap: slideLayer}).addTo(mymap);
-            
         });
     </script>
 </body>

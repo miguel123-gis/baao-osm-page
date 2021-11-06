@@ -57,7 +57,35 @@ function resetLocation(btn) {
        ]);
 }
 
-function slideLayer(){
-    // mymap.removeLayer(lyrBldgs);
-    pass
+function slideLayer() {
+    if (mymap.hasLayer(lyrBldgs)) {
+        mymap.removeLayer(lyrBldgs)
+    } else {
+        mymap.addLayer(lyrBldgs)
+    }
 };
+
+// getDataAddMarkers = function( {label, value, map, exclamation} ) {
+//     map.eachLayer(function (layer) {
+//             if (layer instanceof L.Marker) {
+//                 map.removeLayer(layer);
+//             }
+//     });
+
+//     filteredData = data.features.filter(function (i, n) {
+//         return i.properties.title===label;
+//         });
+
+//     var markerArray = [];
+//     L.geoJson(filteredData, {
+//         onEachFeature: function onEachFeature(feature, layer) {
+//             content = `${exclamation} <br> ${feature.properties.content} <br> (${Math.round(value/6 * 100)}% done with story)`
+//             var popup = L.popup().setContent(content);
+//             layer.bindPopup(popup);
+//             markerArray.push(layer);
+//         }
+//     }).addTo(map);
+    
+//     var markerGroup = L.featureGroup(markerArray);
+//     map.fitBounds(markerGroup.getBounds()).setZoom(12);
+// };
